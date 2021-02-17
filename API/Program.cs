@@ -8,20 +8,26 @@ namespace API
     {
         static void Main(string[] args)
         {
+            string pokeChoice = "";
+
+            System.Console.WriteLine("Write any pokemon to see their stats!");
+
+            pokeChoice = Console.ReadLine().ToLower();
+
             RestClient client = new RestClient("https://pokeapi.co/api/v2/");
 
-            RestRequest request = new RestRequest("pokemon/charmander");
+            RestRequest request = new RestRequest("pokemon/" + pokeChoice);
 
             IRestResponse response = client.Get(request);
 
             Console.WriteLine(response.StatusCode);
             System.Console.WriteLine();
 
-            Pokemon charmander = JsonConvert.DeserializeObject<Pokemon>(response.Content);
+            Pokemon poke = JsonConvert.DeserializeObject<Pokemon>(response.Content);
 
-            Console.WriteLine(charmander.name);
-            System.Console.WriteLine(charmander.weight);
-            System.Console.WriteLine(charmander.base_experience);
+            Console.WriteLine(poke.name.ToUpper());
+            System.Console.WriteLine("Weight " + poke.weight);
+            System.Console.WriteLine("XP " + poke.base_experience);
 
             Console.ReadLine();
         }
